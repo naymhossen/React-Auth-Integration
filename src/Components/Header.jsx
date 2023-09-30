@@ -3,15 +3,13 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
 
 const Header = () => {
+  const { user, logOut } = useContext(AuthContext);
 
-    const { user, logOut } = useContext(AuthContext);
-
-    const handleLogOut = () => {
-        logOut()
-        .then(() => console.log('user loged out'))
-        .catch(error => console.error(error))
-    }
-
+  const handleLogOut = () => {
+    logOut()
+      .then(() => console.log("user loged out"))
+      .catch((error) => console.error(error));
+  };
 
   const navlinks = (
     <>
@@ -24,6 +22,20 @@ const Header = () => {
       <li>
         <NavLink to="/registration">Registration</NavLink>
       </li>
+      <li>
+        <NavLink to="/order">Order</NavLink>
+      </li>
+      {user && <>
+        <li>
+        <NavLink to="/profile">Profile</NavLink>
+      </li>
+        <li>
+        <NavLink to="/dashbord">Dashbord</NavLink>
+      </li>
+        <li>
+        <NavLink to="/friday">90% Offer</NavLink>
+      </li>
+      </>}
     </>
   );
 
@@ -61,16 +73,18 @@ const Header = () => {
           <ul className="menu menu-horizontal px-1">{navlinks}</ul>
         </div>
         <div className="navbar-end">
-            {
-                user ?
-                <>
-                <p>{user.email}</p>
-                <a onClick={handleLogOut} className="btn btn-sm">Sign Out</a>
-                </> 
-                :
-                <button className="btn"><Link to="/login">Login</Link></button>
-            }
-          
+          {user ? (
+            <>
+              <p>{user.email}</p>
+              <a onClick={handleLogOut} className="btn btn-sm">
+                Sign Out
+              </a>
+            </>
+          ) : (
+            <button className="btn">
+              <Link to="/login">Login</Link>
+            </button>
+          )}
         </div>
       </div>
     </div>
